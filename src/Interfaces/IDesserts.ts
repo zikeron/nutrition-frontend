@@ -1,12 +1,11 @@
 type nutritionInfo = {
-  calories: number;
-  fat: number;
-  carbs: number;
-  protein: number;
+  calories: number | null | string | File;
+  fat:   number | null | string | File;
+  carbs:   number | null | string | File;
+  protein:  number | null | string | File;
 };
 
 export interface IDessert {
-  _id: string;
-  dessert: String;
+  dessert:  number | null | string | File;
   nutritionInfo: nutritionInfo;
 }

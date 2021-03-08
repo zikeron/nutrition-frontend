@@ -1,41 +1,40 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { IDessert } from "../Interfaces/IDesserts";
-import {CustomClient} from "../lib/apollo-client";
-import {gql} from "@apollo/client";
+import { CustomClient } from "../lib/apollo-client";
+import { gql } from "@apollo/client";
 
 function useInitialState(): {
   addToDesserts: (payload: IDessert) => void;
-  removeFromDesserts: (indexList: number) => void;
-  state: any
+  removeFromDesserts: (indexList: number[]) => void;
+  toggleForm: (value: boolean) => void;
+  sortDesserts: (payload: IDessert[]) => void;
+  state: any;
 } {
-  const [state, setState] = useState({desserts: []});
+  const [state, setState] = useState({ desserts: [], showForm: false });
 
-  const fetchData = async () => {
-    await CustomClient()
-    .query({
-      query: gql`
+  useEffect(() => {
+    (async () => {
+      const query = await CustomClient().query({
+        query: gql`
           query {
-              getDesserts {
-                  _id
-                  dessert
-                  nutritionInfo {
-                      calories
-                      fat
-                      carbs
-                      protein
-                  }
+            getDesserts {
+              _id
+              dessert
+              nutritionInfo {
+                calories
+                fat
+                carbs
+                protein
               }
+            }
           }
-      `
-    })
-    .then(data => {
-      setState({desserts: data.data.getDesserts});
-    });
-  };
+        `
+      });
 
-  useEffect( ()=> {
-     fetchData();
-    },[]);
+      const data = query.data.getDesserts;
+      setState({ ...state, desserts: data });
+    })();
+  }, []);
 
   const addToDesserts = (payload: IDessert): void => {
     setState({
@@ -45,18 +44,39 @@ function useInitialState(): {
     });
   };
 
-  const removeFromDesserts = (payload: number): void => {
+  const removeFromDesserts = (payload: number[]): void => {
+    const newDesserts =  [...state.desserts];
+    payload.forEach(item => {
+        newDesserts.splice(Number(item), 1);
+    });
+
     setState({
       ...state,
-      desserts: state.desserts.filter(
-        (product: IDessert, index: number) => index !== payload
-      )
+      //@ts-ignore
+      desserts: newDesserts
+    });
+  };
+
+  const toggleForm = (value: boolean): void => {
+    setState({
+      ...state,
+      showForm: value
+    });
+  };
+
+  const sortDesserts = (payload: IDessert[]): void => {
+    setState({
+      ...state,
+    // @ts-ignore
+      desserts: payload
     });
   };
 
   return {
     addToDesserts,
     removeFromDesserts,
+    toggleForm,
+    sortDesserts,
     state
   };
 }
