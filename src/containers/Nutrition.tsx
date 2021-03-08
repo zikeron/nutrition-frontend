@@ -1,10 +1,16 @@
-import React, {ReactElement, useEffect} from 'react';
-import {List} from "../components/List";
+import React, {ReactElement} from "react";
 
-export function Nutrition():ReactElement {
+import { List } from "../components/List";
+import { Form } from "../components/Form";
+
+export function Nutrition(): ReactElement {
+  const title = "Nutrition List";
+  const headers = ["Dessert", "Calories", "Fat", "Carbs", "Protein"];
+
   return (
-    <List title="Nutrition List"/>
-  )
+    <div>
+      <Form />
+      <List title={title} headers={headers} />
+    </div>
+  );
 }
-
-

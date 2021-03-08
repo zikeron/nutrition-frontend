@@ -1,10 +1,12 @@
 import React, {ReactElement} from "react";
+import { FaCheck } from "react-icons/fa";
+
 
 export function ButtonForm():ReactElement {
   return (
     <div>
-      <button className="input-reset db w-100 light-gray f6 b ttu tracked pv3 ph3 pointer bg-dark-blue hover-bg-blue bn br-pill">
-        Sign In
+      <button className="input-reset w-100 light-gray br2 tracked pv2 ph2 pointer bg-dark-green hover-bg-blue bn">
+        <FaCheck /> Submit
       </button>
     </div>
   );

@@ -1,12 +1,25 @@
 import React, { ReactElement } from "react";
 
-export function InputForm({ name }: { name: string }): ReactElement {
+export function InputForm({
+  name,
+  type,
+  required
+}: {
+  name: string;
+  type: string;
+  required: boolean;
+}): ReactElement {
   return (
-    <div className="mb4">
-      <label htmlFor={name} className="db f6 white-80 ttu ph2 mb2">
+    <div className="mb4 black-80">
+      <label htmlFor={name} className="db fw6 lh-copy f6">
         {name}
+        {required ? <span className="normal black-60"> *</span> : ""}
       </label>
-      <input type="password" name="password" className="input-reset db w-100 mw-100 white b pv2 ph3 bg-white-30 hover-bg-white-70 hover-gray outline-0 bn br-pill" />
+      <input
+        type={type}
+        name={name}
+        className="input-reset ba b--black-20 pa2 br2 mb2 db w-100"
+      />
     </div>
   );
 }
