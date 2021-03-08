@@ -13,7 +13,7 @@ function useInitialState(): {
   const [state, setState] = useState({ desserts: [], showForm: false });
 
   useEffect(() => {
-    (async () => {
+    const fetcher = (async () => {
       const query = await CustomClient().query({
         query: gql`
           query {
@@ -30,10 +30,10 @@ function useInitialState(): {
           }
         `
       });
-
       const data = query.data.getDesserts;
       setState({ ...state, desserts: data });
-    })();
+    });
+    fetcher();
   }, []);
 
   const addToDesserts = (payload: IDessert): void => {
